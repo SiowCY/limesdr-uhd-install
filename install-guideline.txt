@@ -26,8 +26,8 @@ git clone https://github.com/jocover/OpenUSRP.git
 echo "INCLUDE_SUBDIRECTORY(OpenUSRP)">>CMakeLists.txt
 cd OpenUSRP
 nano limesdr_io_impl.cpp 
-## Comment line 691 to 696
-## Comment line 698 to 699
+## Comment line 691 to 697
+## Comment line 699 to 700
 cd ../../../
 mkdir build && cd build
 cmake ..
