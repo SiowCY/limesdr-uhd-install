@@ -35,6 +35,7 @@ make -j4
 sudo make install
 sudo ldconfig
 echo 'export UHD_MODULE_PATH=/usr/lib/uhd/modules' >> ~/.bashrc
+source ~/.bashrc
 grgsm_scanner -v
 pybombs install gr-gsm
 ldconfig
