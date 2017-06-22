@@ -1,0 +1,64 @@
+sudo su -
+https://cmake.org/files/v3.8/cmake-3.8.2-Linux-x86_64.tar.gz
+tar -zxvf cmake-3.8.2-Linux-x86_64.tar.gz
+mv cmake-3.8.2-Linux-x86_64 cmake
+mv cmake /opt/cmake
+ln -s /opt/cmake/bin/* /usr/local/bin
+sudo add-apt-repository -y ppa:myriadrf/drivers
+sudo apt-get update
+sudo apt-get install git python-pip python-dev
+pip install git+https://github.com/gnuradio/pybombs.git
+pybombs recipes add gr-recipes git+https://github.com/gnuradio/gr-recipes.git
+pybombs recipes add gr-etcetera git+https://github.com/gnuradio/gr-etcetera.git
+pybombs prefix init /usr/local -a myprefix -R gnuradio-default
+pybombs install gqrx gr-osmosdr uhd
+sudo apt-get install g++ libsqlite3-dev libsoapysdr-dev libi2c-dev libusb-1.0-0-dev libwxgtk3.0-dev freeglut3-dev 
+git clone https://github.com/myriadrf/LimeSuite.git
+cd LimeSuite
+mkdir builddir && cd builddir
+cmake ../
+make -j4
+sudo make install
+ldconfig
+git clone https://github.com/EttusResearch/uhd.git
+cd uhd/host/lib/usrp
+git clone https://github.com/jocover/OpenUSRP.git
+echo "INCLUDE_SUBDIRECTORY(OpenUSRP)">>CMakeLists.txt
+cd OpenUSRP
+nano limesdr_io_impl.cpp 
+## Comment line 691 to 696
+## Comment line 698 to 699
+cd ../../../
+mkdir build && cd build
+cmake ..
+make -j4
+sudo make install
+sudo ldconfig
+echo 'export UHD_MODULE_PATH=/usr/lib/uhd/modules' >> ~/.bashrc
+grgsm_scanner -v
+pybombs install gr-gsm
+ldconfig
+git clone https://github.com/ksnieck/airprobe.git
+git clone https://github.com/scateu/airprobe-3.7-hackrf-patch.git
+apt-get install git-core autoconf automake libtool g++ python-dev swig libpcap0.8-dev uhd-host libboost-all-dev libusb-1.0-0 libusb-1.0-0-dev libfftw3-dev swig python-numpy wireshark
+cd airprobe-3.7-hackrf-patch/
+cp * ../airprobe
+cd ../airprobe
+patch -p1 < zmiana.patch
+cd gsm-receiver/
+./bootstrap
+./configure
+make
+make install
+cd src/python/
+python gsm_receive_rtl.py -f 935.8M
+grgsm_livemon -f 935.8M
+wireshark -k -Y '!icmp && gsmtap' -i lo 
+
+
+
+
+
+
+
+
