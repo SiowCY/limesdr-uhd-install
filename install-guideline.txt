@@ -61,6 +61,7 @@ grgsm_decode -f 950200000 -s 1e6 -c capture.cfile -m BCCH -t 0
 grgsm_decode -f 950200000 -s 1e6 -c capture.cfile -m SDCCH8 -t 1
 git clone https://github.com/Oros42/IMSI-catcher.git
 apt-get install python-numpy python-scipy python-scapy
+cd IMSI-catcher
 python simple_IMSI-catcher.py ==> First Tab
 airprobe_rtlsdr.py -f 935.2M -g 40 -s 1e6 ==> Second Tab (tune the frequency)
 
